@@ -8,7 +8,8 @@ import numpy as np
 #
 # OpenCV 함수를 활용하세요.
 def convert_to_gray(image):
-    raise NotImplementedError
+    # raise NotImplementedError
+    return cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
 
 # 문제 2.
@@ -22,7 +23,8 @@ def resize_image(
     width,
     height,
 ):
-    raise NotImplementedError
+    # raise NotImplementedError
+    return cv2.resize(image, (int(width), int(height)))
 
 
 # 문제 3.
@@ -37,7 +39,8 @@ def apply_threshold(
     gray_image,
     threshold_value,
 ):
-    raise NotImplementedError
+    # raise NotImplementedError
+    return cv2.threshold(gray_image, threshold_value, 255, cv2.THRESH_BINARY)[1]
 
 
 # 문제 4.
@@ -53,7 +56,11 @@ def apply_threshold(
 #
 # 조건에 맞는 픽셀 개수를 반환하세요.
 def count_red_pixels(image):
-    raise NotImplementedError
+    # raise NotImplementedError
+    blue  = image[:, :, 0]   # 모든 픽셀의 파랑 값만 모은 표
+    green = image[:, :, 1]   # 모든 픽셀의 초록 값만 모은 표
+    red   = image[:, :, 2]   # 모든 픽셀의 빨강 값만 모은 표
+    return np.sum((red > 200) & (green < 50) & (blue < 50))
 
 
 # 문제 5.
@@ -68,4 +75,13 @@ def count_red_pixels(image):
 #
 # 객체가 없으면 None 반환
 def find_object_center(mask):
-    raise NotImplementedError
+    # raise NotImplementedError
+    ys, xs = np.where(mask == 255)
+
+    if len(xs) == 0:
+        return None
+
+    cx = int(xs.mean())
+    cy = int(ys.mean())
+    
+    return(cx, cy)
